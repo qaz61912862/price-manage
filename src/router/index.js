@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Home from '../page/Home'
 import Login from '../page/Login'
 import List from '../page/Island/List'
@@ -22,6 +22,7 @@ export default class RouterPage extends Component {
                                 <Route path="/island/detail/:id" component={Detail}></Route>
                             </Switch>   
                         )} path="/island"></Route>
+                        <Redirect from="*" to="/"/>
                     </Switch>
                 </BrowserRouter>
             </Fragment>
