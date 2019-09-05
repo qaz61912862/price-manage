@@ -1,0 +1,74 @@
+.wrapper{
+    min-height: 100vh;
+    .ant-layout-sider{
+        background: #252525;
+        .car-logo{
+            width: 100%;
+            margin-bottom: 20px;
+            .icon{
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+                display: block;
+                margin-top: 20px;
+            }
+        }
+        .ant-menu{
+            background: #252525;
+            .ant-menu-item{
+                background: #252525;
+                color: #fff;
+                a{
+                    display: inline;
+                    color: #fff;
+                }
+                &:hover{
+                    color: #252525;
+                    background: #fff;
+                }
+                &.ant-menu-item-active{
+                    background: #fff;
+                    color: #252525;
+                    a{
+                        color: #252525;
+                        
+                    }
+                }
+                &.ant-menu-item-selected{
+                    background: #fff;
+                    color: #252525;
+                    a{
+                        color: #252525;
+                        
+                    }
+                }
+                &::after{
+                    border-right: 3px solid #252525
+                }
+            }
+            .ant-menu-submenu-title{
+                background: #252525;
+                color: #fff;
+                &::after{
+                    color: #fff;
+                }
+                &.ant-menu-submenu-active{
+                    // color: #252525;
+                    span{
+                        color: #fff;
+                    }
+                    i{
+                        overflow: hidden;
+                        &::after{
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ant-layout-header{
+        background: #fff;
+        border-bottom: 1px solid #f5f5f5;
+    }
+}

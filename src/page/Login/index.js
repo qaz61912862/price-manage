@@ -29,9 +29,9 @@ class Login extends Component {
     }
     submitForm = () => {
         const { username, password } = this.state
-        if (username == '') {
+        if (username === '') {
             message.info('请输入账号')
-        } else if (password == '') {
+        } else if (password === '') {
             message.info('请输入密码')
         } else {
             let info = {
