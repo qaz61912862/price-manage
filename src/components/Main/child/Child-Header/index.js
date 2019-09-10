@@ -10,7 +10,7 @@ export default class ChildHeader extends Component {
                 <div className="avatar">
                     <Icon type="smile" theme="outlined" />
                 </div>
-                <div class="user-name">Hanson,</div>
+                <div className="user-name">Hanson,</div>
                 <Button type="primary" shape="circle" icon="logout" />
             </div>
         )
