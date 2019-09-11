@@ -17,6 +17,7 @@ export default class RouterPage extends Component {
             <Fragment>
                 <BrowserRouter>
                     <Switch>
+                    
                         <Route path="/login" component={Login}></Route>
                         <Route path="/home" render={() => (
                             <Main>
@@ -24,8 +25,9 @@ export default class RouterPage extends Component {
                                 <Route path="/home/user" exact component={User}></Route>
                             </Main>
                         )}></Route>
-                        <Route path="/dev" component={Dev}></Route>                        
-                        <Redirect from="*" to="/home"/>
+                        <Route path="/dev" component={Dev}></Route>  
+                        <Redirect from="/" to="/home" />
+                        <Redirect from="*" to="/home" />
                     </Switch>
                 </BrowserRouter>
             </Fragment>
