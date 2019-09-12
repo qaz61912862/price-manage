@@ -3,26 +3,27 @@ import { LOG_IN, LOG_OUT } from './actionTypes'
 
 
 const defaultState = {
-    userId: cookie.load('userId') ? cookie.load('userId') : '',
-    status: cookie.load('userId') ? true : false
+    user: cookie.load('user') ? cookie.load('user') : '',
+    status: cookie.load('user') ? true : false
 }
 
 export default (state=defaultState, action) => {
     switch(action.type) {
         case LOG_IN:
-            cookie.save('userId', action.value.username)
+            cookie.save('user', action.username)
             return {
                 ...state,
                 status: true,
-                userId: action.value.username
+                user: action.username
             }
         case LOG_OUT:
-            cookie.remove()
+            cookie.remove('user')
+            window.sessionStorage.clear()
             return {
                 ...state,
-                status: false,
-                userId: ''
+                status: false
             }
+            
     }
     return state
 }

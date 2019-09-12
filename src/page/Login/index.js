@@ -2,16 +2,23 @@ import React, { Component } from 'react'
 import { Input, Button, message } from 'antd';
 import { connect } from 'react-redux'
 import { login } from './store/actionCreators'
-import './index.less'
+import { CSSTransition } from 'react-transition-group'
+import '../css-common/index.less'
+import { Redirect } from 'react-router-dom'
 
 
-class Login extends Component {
+
+class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            showReg: false
         }
+    }
+    changeToReg = () => {
+        this.props.history.push('/register')
     }
     onChangeUser = ({ target: { value } }) => {
         this.setState(() => {
@@ -42,15 +49,35 @@ class Login extends Component {
         }
     }
     render() {
-        const { username, password } = this.state;
+        const { username, password, showReg } = this.state;
+        if (this.props.loginStatus) {
+            if (this.props.location.state) {
+                let url = `${this.props.location.state.from.pathname}`
+                return (
+                    <Redirect to={url} />
+                )
+            }
+            return (
+                <Redirect to={'/home/carsList'} />
+            )
+        }
         return (
             <div className="wrapper">
+                <CSSTransition
+                 in={!showReg}
+                 timeout={1000}
+                 classNames="fade"
+                 appear={true}
+                >
                 <div className="wrapper-l">
-                    <div className="login-title">Max汽车全鉴</div>
+                    <div className="main-title">Login</div>
+                    <div className="login-title">Great minds think alike</div>
                     <Input value={username} onChange={this.onChangeUser} placeholder="账号" className="input-item"/>
                     <Input value={password} onChange={this.onChangePass} type="password" placeholder="密码" className="input-item"/>
-                    <Button type="primary" className="login-button" onClick={this.submitForm}>Sign In</Button>
+                    <Button type="primary" className="login-button" onClick={this.submitForm}>Login</Button>
+                    <Button type="primary" className="login-button reg-button" onClick={this.changeToReg}>Register</Button>
                 </div>
+                </CSSTransition>
                 <div className="wrapper-r">
                     <img src={require('../../images/login-bg2.jpg')} alt=""/>
                     <img src={require('../../images/login-bg.jpg')} alt=""/>
@@ -71,4 +98,4 @@ const mapDispatch = (dispatch) => {
         }
     }
 }
-export default connect(mapState, mapDispatch)(Login)
+export default connect(mapState, mapDispatch)(Register)

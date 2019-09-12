@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import axios from '../../utils/request'
 
 
 export default class Dev extends Component {
     componentDidMount() {
-        axios.get('http://localhost:8000/api/car/carList').then((res) => {
+        axios.get('http://localhost:4000/api/car/list').then((res) => {
             
         })
     }

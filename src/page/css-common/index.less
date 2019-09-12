@@ -1,0 +1,77 @@
+body{
+    overflow-y: hidden;
+}
+.wrapper{
+    width: 100%;
+    display: flex;
+    // height: 100%;
+    min-width: 1275px;
+    .fade-enter, .fade-appear{
+        opacity: 0;
+    }
+    .fade-enter-active, .fade-apper-active{
+        opacity: 1;
+        transition: all 1s ease-in;
+    }
+    .fade-enter-done{
+        opacity: 1;
+    }
+    .fade-exit{
+        opacity: 1;
+    }
+    .fade-exit-active{
+        opacity: 0;
+        transition: all 1s ease-in;
+    }
+    .fade-exit-done{
+        opacity: 0;
+    }
+    .wrapper-l{
+        width: 50%;
+        flex: 1;
+        height: 100%;
+        .main-title{
+            width: 100%;
+            text-align: center;
+            margin-top: 200px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .login-title{
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            color: orangered;
+        }
+        .login-button{
+            width: 350px;
+            height: 40px;
+            margin: 0 auto;
+            margin-top: 20px;
+            display: block;
+            background: rgb(74,202,109);
+            &.reg-button{
+                border-color: linear-gradient(to right, #252525, rgba(70, 66, 66, 0.9));
+                background: #252525;
+            }
+        }
+        .input-item{
+            width: 350px;
+            height: 40px;
+            margin: 0 auto;
+            margin-top: 20px;
+            display: block;
+        }
+    }
+    .wrapper-r{
+        flex: 1;
+        height: 100%;
+        img{
+            width: 100%;
+            height: 100%;
+            margin-top: -90px;
+        }
+    }
+}

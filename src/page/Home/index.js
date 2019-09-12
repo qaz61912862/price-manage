@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addTest } from './store/actionCreators'
+import axios from '../../utils/request'
 
 class Home extends Component {
+    
     render() {
         return (
             <div>

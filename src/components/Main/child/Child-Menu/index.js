@@ -69,9 +69,10 @@ export default class ChildMenu extends Component {
         let { routeArray } = this.state
         for (let i = 0; i < routeArray.length - 1; i++) {
             if (routeArray[i].route == window.location.pathname) {
+                console.log(i)
                 this.setState(() => {
                     return {
-                        currentIndex: `${i + 1}`,
+                        currentGroup: `${i + 1}`,
                     }
                 }, () => {
                     console.log(this.state)
@@ -82,8 +83,9 @@ export default class ChildMenu extends Component {
             } else {
                 // console.log(i)
                 if (routeArray[i].children) {
-                    for (let j = 0; j < routeArray[i].children.length - 1; j++) {
+                    for (let j = 0; j < routeArray[i].children.length; j++) {
                         if (routeArray[i].children[j].route == window.location.pathname) {
+                            console.log(i+1, routeArray[i].children[j].key)
                             this.setState(() => {
                                 return {
                                     currentIndex: `${i + 1}`,
