@@ -1,24 +1,46 @@
 
-.user-info{
-    float: right;
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    .anticon
-        svg{
-            font-size: 20px;
-            position: relative;
-            top: 3px;
+.header-wrapper{
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: right;
+    // align-items: right;
+    .user-info{
+        float: right;
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        margin-left: auto;
+        cursor: pointer;
+        .anticon
+            .anticon-smile{
+                position: relative;
+                top: 2px;
+            }
+            svg{
+                font-size: 24px;
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+            .avatar-img{
+                width: 30px;
+                height: 30px;
+                // background: red;
+                border-radius: 50%;
+                display: inline-block;
+            }
+        .user-name{
+            font-size: 16px;
+            color: #252525;
+            margin: 0 20px 0 10px;
         }
-    .user-name{
-        font-size: 16px;
-        color: #252525;
-        margin: 0 20px 0 10px;
+        
     }
-    button{
+    .ant-btn{
         background: #252525;
         border-color: #252525;
         margin-top: 16px;
+        float: right;
         &:hover{
             background: #252525;
             border-color: #252525;

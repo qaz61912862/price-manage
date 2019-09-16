@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PrivateRoute from '../components/PrivateRoute'
+import PersonalCenter from '../page/Home/pages/PersonalCenter'
 import CarsList from '../page/Home/pages/CarsList'
 import User from '../page/Home/pages/User'
 import Article from '../page/Home/pages/Article'
@@ -10,6 +11,7 @@ import Main from '../components/Main'
 import Login from '../page/Login'
 import Register from '../page/Register'
 import Dev from '../page/Dev'
+import NotFound from '../components/NotFound'
 import {connect} from 'react-redux'
 
 
@@ -24,18 +26,22 @@ class RouterPage extends Component {
             <Fragment>
                 <BrowserRouter>
                     <Switch>
-                    
+                        <Redirect exact from="/" to="/home/carsList" />
                         <Route path="/login" component={Login}></Route>
                         <Route path="/register" component={Register}></Route>
                         <Route path="/home" render={() => 
                             {
                                 return loginStatus ? (
                                     <Main>
-                                        <PrivateRoute path="/home/carsList" exact component={CarsList}></PrivateRoute>
-                                        <PrivateRoute path="/home/user" exact component={User}></PrivateRoute>
-                                        <PrivateRoute path="/home/article" exact component={Article}></PrivateRoute>
-                                        <PrivateRoute path="/home/video" exact component={Video}></PrivateRoute>
-                                        <PrivateRoute path="/home/picture" exact component={Picture}></PrivateRoute>
+                                        <Switch>
+                                            <PrivateRoute exact path="/home/carsList" component={CarsList}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/user" component={User}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/article" component={Article}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/video" component={Video}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/picture" component={Picture}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/personalCenter" component={PersonalCenter}></PrivateRoute>
+                                            <Route component={NotFound} />
+                                        </Switch> 
                                     </Main>
                                 ) : (
                                     <Redirect to={{
@@ -47,8 +53,7 @@ class RouterPage extends Component {
                             
                         }></Route>
                         <Route path="/dev" component={Dev}></Route>  
-                        <Redirect from="/" to="/home" />
-                        <Redirect from="*" to="/home" />
+                        <Route component={NotFound}/>
                     </Switch>
                 </BrowserRouter>
             </Fragment>

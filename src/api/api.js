@@ -9,3 +9,9 @@ export const login = base + '/api/user/login'
 export const logout = base + '/api/user/logout'
 
 export const getUserInfo = base + '/api/user/userInfo'
+
+export const modifyUserInfo = base + '/api/user/modifyUserInfo'
+
+export const getCarsList = base + '/api/car/list'
+
+

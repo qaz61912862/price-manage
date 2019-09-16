@@ -109,7 +109,7 @@ export default class ChildMenu extends Component {
     }
     render() {
         const { routeArray, currentIndex, currentGroup } = this.state
-        console.log(window.location.pathname)
+        // console.log(window.location.pathname)
         return (
             <Menu defaultOpenKeys={[`${currentIndex}`]} defaultSelectedKeys={[`${currentGroup}`]} mode="inline">
                 {

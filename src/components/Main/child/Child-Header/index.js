@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Icon, Button } from 'antd'
 import { connect } from 'react-redux'
 import { logout } from '../../../../page/Login/store/actionCreators'
 import { getUserInfo } from '../../../../api/api'
 import axios from '../../../../utils/request'
 import './index.less'
+import { Link } from 'react-router-dom'
 
 class ChildHeader extends Component {
     constructor(props) {
@@ -40,15 +41,22 @@ class ChildHeader extends Component {
     render() {
         const { username, avatar } = this.state.userInfo
         return (
-            <div className="user-info">
-                <div className="avatar">
-                    {
-                        
-                    }
-                    <Icon type="smile" theme="outlined" />
-                </div>
-                <div className="user-name">{username}</div>
+            <div className="header-wrapper">
                 <Button type="primary" shape="circle" icon="logout" onClick={this.toLogout}/>
+                <Link to="/home/personalCenter">
+                    <div className="user-info">
+                        <div className="avatar">
+                            {
+                                avatar === '' ? (
+                                    <Icon type="smile" theme="outlined" />
+                                ) : (
+                                    <img className="avatar-img" src={avatar} alt=""/>
+                                )
+                            }
+                        </div>
+                        <div className="user-name">{username}</div>
+                    </div>
+                </Link>
             </div>
         )
     }
