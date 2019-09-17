@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon } from 'antd'
-import { Link, NavLink } from 'react-router-dom'
+import { Menu, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 const { SubMenu } = Menu;
 
 
@@ -68,14 +68,14 @@ export default class ChildMenu extends Component {
     componentWillMount() {
         let { routeArray } = this.state
         for (let i = 0; i < routeArray.length - 1; i++) {
-            if (routeArray[i].route == window.location.pathname) {
-                console.log(i)
+            if (routeArray[i].route === window.location.pathname) {
+                // console.log(i)
                 this.setState(() => {
                     return {
                         currentGroup: `${i + 1}`,
                     }
                 }, () => {
-                    console.log(this.state)
+                    // console.log(this.state)
                 })
                 
 
@@ -84,7 +84,7 @@ export default class ChildMenu extends Component {
                 // console.log(i)
                 if (routeArray[i].children) {
                     for (let j = 0; j < routeArray[i].children.length; j++) {
-                        if (routeArray[i].children[j].route == window.location.pathname) {
+                        if (routeArray[i].children[j].route === window.location.pathname) {
                             console.log(i+1, routeArray[i].children[j].key)
                             this.setState(() => {
                                 return {
@@ -114,7 +114,7 @@ export default class ChildMenu extends Component {
             <Menu defaultOpenKeys={[`${currentIndex}`]} defaultSelectedKeys={[`${currentGroup}`]} mode="inline">
                 {
                     routeArray.map(item => {
-                        if (item.type == 1) {
+                        if (item.type === 1) {
                             return (
                                 <Menu.Item key={item.key}>
                                     <Icon type={item.icon}/>

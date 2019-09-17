@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Upload, Icon, Row, Col, Avatar, Input, Button, message } from 'antd'
+import { Upload, Row, Col, Avatar, Input, Button, message } from 'antd'
 import { getUserInfo, modifyUserInfo } from '../../../../api/api'
 import axios from '../../../../utils/request'
 import './index.less'
@@ -78,9 +78,9 @@ export default class PersonalCenter extends Component {
     }
     submitModify = () => {
         let { username, realname, avatar } = this.state.userInfo
-        if (username == '') {
+        if (username === '') {
             message.warning('请输入用户名')
-        } else if (realname == '') {
+        } else if (realname === '') {
             message.warning('请输入真实姓名')
         } else {
             let info = {
@@ -89,7 +89,7 @@ export default class PersonalCenter extends Component {
                 realname: realname
             }
             axios.post(modifyUserInfo, info).then((res2) => {
-                if (res2.data.errno == 0) {
+                if (res2.data.errno === 0) {
                     message.success('修改成功')
                     window.sessionStorage.clear();
                     this.setState({
@@ -128,12 +128,6 @@ export default class PersonalCenter extends Component {
       };
     render() {
         const { userInfo } = this.state
-        const uploadButton = (
-            <div>
-              <Icon type={this.state.loading ? 'loading' : 'plus'} />
-              <div className="ant-upload-text">Upload</div>
-            </div>
-        );
         return userInfo ? (
             <div>
                 <div className="top-avatar-banner">
@@ -149,7 +143,7 @@ export default class PersonalCenter extends Component {
                     onChange={this.handleChangeImg}
                     >
                         {
-                            userInfo.avatar == '' ? (
+                            userInfo.avatar === '' ? (
                                 <Avatar size={64} icon="user" />
                             ) : (
                                 <img src={userInfo.avatar}/>

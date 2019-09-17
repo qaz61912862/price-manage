@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Icon, Button } from 'antd'
 import { connect } from 'react-redux'
 import { logout } from '../../../../page/Login/store/actionCreators'

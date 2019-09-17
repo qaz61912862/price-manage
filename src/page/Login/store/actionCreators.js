@@ -17,7 +17,7 @@ export const login = (val) => {
             password: val.password
         }
         axios.post(loginApi, info).then((res) => {
-            if (res.data.errno == 0) {
+            if (res.data.errno === 0) {
                 dispatch(action)  
                 // console.log(action)
             } else {
@@ -36,7 +36,7 @@ export const logout = () => {
         }
         axios.get(logoutApi).then((res) => {
             console.log(res)
-            if (res.data.errno == 0) {
+            if (res.data.errno === 0) {
                 message.success('退出成功')
                 dispatch(action)
             } else {

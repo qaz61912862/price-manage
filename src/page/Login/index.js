@@ -72,7 +72,7 @@ class Register extends Component {
                 <div className="wrapper-l">
                     <div className="main-title">Login</div>
                     <div className="login-title">Great minds think alike</div>
-                    <Input value={username} onChange={this.onChangeUser} placeholder="账号" className="input-item"/>
+                    <Input ref="element" value={username} onChange={this.onChangeUser} placeholder="账号" className="input-item"/>
                     <Input value={password} onChange={this.onChangePass} type="password" placeholder="密码" className="input-item"/>
                     <Button type="primary" className="login-button" onClick={this.submitForm}>Login</Button>
                     <Button type="primary" className="login-button reg-button" onClick={this.changeToReg}>Register</Button>

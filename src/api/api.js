@@ -14,4 +14,12 @@ export const modifyUserInfo = base + '/api/user/modifyUserInfo'
 
 export const getCarsList = base + '/api/car/list'
 
+export const getMakeName = base + '/api/car/getMakeName'
+
+export const getVehicleClass = base + '/api/car/getVehicleClass'
+
+export const getTransmission = base + '/api/car/getTransmission'
+
+
+
 

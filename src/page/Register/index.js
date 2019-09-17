@@ -53,14 +53,14 @@ export default class Register extends Component {
                 username
             }
             axios.post(checkUser, info).then((res) => {
-                if (res.data.errno == 0) {
+                if (res.data.errno === 0) {
                     let info2 = {
                         username,
                         password,
                         realname
                     }
                     axios.post(register, info2).then((res2) => {
-                        if (res2.data.errno == 0) {
+                        if (res2.data.errno === 0) {
                             message.success('注册成功，即将跳转登录页面...')
                             setTimeout(() => {
                                 this.props.history.replace('/login')
