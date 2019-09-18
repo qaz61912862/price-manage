@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Icon, Button } from 'antd'
 import { connect } from 'react-redux'
 import { logout } from '../../../../page/Login/store/actionCreators'
-import { getUserInfo } from '../../../../api/api'
+import { getMyInfo } from '../../../../api/api'
 import axios from '../../../../utils/request'
 import './index.less'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ class ChildHeader extends Component {
                 }
             })
         } else {
-            axios.get(getUserInfo).then((res) => {
+            axios.get(getMyInfo).then((res) => {
                 this.setState(() => {
                     return {
                         userInfo: res.data.data
