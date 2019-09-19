@@ -23,9 +23,9 @@ export default class PersonalCenter extends Component {
             message.warning('请输入真实姓名')
         } else {
             let info = {
-                username: username,
-                avatar: avatar,
-                realname: realname
+                username,
+                avatar,
+                realname
             }
             axios.post(modifyUserInfo, info).then((res2) => {
                 if (res2.data.errno === 0) {

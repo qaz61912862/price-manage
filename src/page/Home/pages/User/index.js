@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import { getUserList, delUser } from '../../../../api/api'
+import { getUserList, delUser, searchUser } from '../../../../api/api'
 import './index.less'
+import Search from './component/Search'
 import { Row, Col, message, Pagination, Button } from 'antd'
 import axios from '../../../../utils/request'
 
@@ -8,6 +9,7 @@ export default class User extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            showPage: true,
             isAdmin: 0,
             isFinish: false,
             total: 0,
@@ -60,6 +62,31 @@ export default class User extends Component {
             }
         })
     }
+    beginSearch = (key) => {
+        let info = {
+            key
+        }
+        if (key == '') {
+            this.setState({
+                showPage: true,
+                current: 1,
+                page: 1
+            })
+        } else {
+            this.setState({
+                showPage: false
+            })
+        }
+        axios.post(searchUser, info).then((res) => {
+            if (res.data.errno === 0) {
+                this.setState(() => {
+                    return {
+                        userList: res.data.data
+                    }
+                })
+            }
+        })
+    }
     init = () => {
         axios.post(getUserList, {
             page: 1
@@ -87,12 +114,13 @@ export default class User extends Component {
         this.init()
     }
     render() {
-        const { isAdmin, isFinish, userList, total } = this.state
+        const { isAdmin, isFinish, userList, total, showPage } = this.state
         return (
             <div className="user">
                 {
                     isFinish && isAdmin === 1 && (
                         <Fragment>
+                        <Search beginSearch={this.beginSearch}/>
                         <Row className="title-row">
                             <Col span={6}>头像</Col>
                             <Col span={6}>用户名</Col>
@@ -104,7 +132,7 @@ export default class User extends Component {
                                 <Row key={index}>
                                     <Col span={6}>
                                         {
-                                            (item.avatar === '' || item.avatar === null) ? (
+                                            (item.avatar === '' || item.avatar === null || item.avatar === 'null') ? (
                                                 <img src={require('../../../../images/default.png')}/>
                                             ) : (
                                                 <img src={item.avatar}/>
@@ -125,7 +153,7 @@ export default class User extends Component {
                     )
                 }
                 {
-                    userList && isFinish && <Pagination defaultPageSize={10} simple current={this.state.page} defaultCurrent={1} total={total} onChange={this.changePage}/>
+                    showPage && userList && isFinish && <Pagination defaultPageSize={10} simple current={this.state.page} defaultCurrent={1} total={total} onChange={this.changePage}/>
                 }
                 {
                     isFinish && isAdmin === 0 && (

@@ -9,6 +9,26 @@ const { Sider, Header, Content } = Layout;
 
 
 export default class Main extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            clientHeight: ''
+        }
+    }
+    componentDidMount() {
+        this.setState(() => {
+            return {
+                clientHeight: document.documentElement.clientHeight
+            }
+        })
+        window.addEventListener('resize', () => {
+            this.setState(() => {
+                return {
+                    clientHeight: document.documentElement.clientHeight
+                }
+            })
+        });
+    }
     render() {
         return (
             <Fragment>
@@ -21,11 +41,17 @@ export default class Main extends Component {
                         </Link>
                         <Menu />
                     </Sider>
-                    <Layout>
+                    <Layout style={{
+                        'height': this.state.clientHeight,
+                        'minHeight': 'auto'
+                    }}>
                         <Header>
                             <ChildHeader></ChildHeader>
                         </Header>
-                        <Content>
+                        <Content style={{
+                            'minHeight': 'auto',
+                            'paddingBottom': '40px'
+                        }}>
                         {
                             this.props.children
                         }

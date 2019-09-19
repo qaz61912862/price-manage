@@ -1,26 +1,10 @@
 import React, { Component } from 'react'
 import { Upload, Row, Col, Avatar, Input, Button, message } from 'antd'
 import { getUserInfo, modifyUserInfo } from '../../api/api'
+import { getBase64, beforeUpload } from '../../utils/upload'
 import axios from '../../utils/request'
 import './index.less'
 
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-  
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
 export default class UserInfo extends Component {
   constructor(props) {
       super(props)
@@ -71,7 +55,7 @@ export default class UserInfo extends Component {
                   onChange={this.handleChangeImg}
                   >
                       {
-                          userInfo.avatar === '' ? (
+                          (userInfo.avatar === '' || userInfo.avatar == null || userInfo.avatar == 'null') ? (
                               <Avatar size={64} icon="user" />
                           ) : (
                               <img src={userInfo.avatar}/>

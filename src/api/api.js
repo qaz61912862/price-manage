@@ -26,6 +26,14 @@ export const delUser = base + '/api/user/delUser'
 
 export const getUserInfo = base + '/api/user/getUserInfo'
 
+export const modifyOtherInfo = base + '/api/user/modifyOtherInfo'
+
+export const searchUser = base + '/api/user/searchUser'
+
+
+
+
+
 
 
 

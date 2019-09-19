@@ -6,6 +6,7 @@ import CarsList from '../page/Home/pages/CarsList'
 import User from '../page/Home/pages/User'
 import UserDetail from '../page/Home/pages/UserDetail'
 import Article from '../page/Home/pages/Article'
+import ArticleEdit from '../page/Home/pages/ArticleEdit'
 import Video from '../page/Home/pages/Video'
 import Picture from '../page/Home/pages/Picture'
 import Main from '../components/Main'
@@ -39,6 +40,7 @@ class RouterPage extends Component {
                                             <PrivateRoute exact path="/home/user" component={User}></PrivateRoute>
                                             <PrivateRoute exact path="/home/userDetail/:id" component={UserDetail}></PrivateRoute>
                                             <PrivateRoute exact path="/home/article" component={Article}></PrivateRoute>
+                                            <PrivateRoute exact path="/home/articleEdit" component={ArticleEdit}></PrivateRoute>
                                             <PrivateRoute exact path="/home/video" component={Video}></PrivateRoute>
                                             <PrivateRoute exact path="/home/picture" component={Picture}></PrivateRoute>
                                             <PrivateRoute exact path="/home/personalCenter" component={PersonalCenter}></PrivateRoute>

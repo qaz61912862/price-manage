@@ -1,0 +1,78 @@
+.manage{
+  width: 100px;
+  background: #252525;
+  color: #fff;
+  border-color: #252525;
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+  &.create{
+    background: green;
+    border-color: green;
+    &:hover{
+      background: green !important;
+      border-color: green !important;
+    }
+    &:focus{
+      background: green !important;
+      border-color: green !important;
+    }
+  }
+  &:hover{
+    background: #252525 !important;
+    border-color: #252525 !important;
+  }
+  &:focus{
+    background: #252525 !important;
+    border-color: #252525 !important;
+  }
+  &.delete{
+    background: red;
+    border-color: red;
+    &:hover{
+      background: red !important;
+      border-color: red !important;
+    }
+    &:focus{
+      background: red !important;
+      border-color: red !important;
+    }
+  }
+}
+.btn-group{
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  .fade-enter, .fade-appear{
+    transform: translateX(100%)
+  }
+  .fade-enter-active, .fade-appear-active{
+    transform: translateX(0);
+    transition: all 1s ease-in;
+  }
+  .fade-enter-done{
+    transform: translateX(0);
+    
+  }
+  .fade-exit{
+    transform: translateX(0);
+  }
+  .fade-exit-active{
+    transform: translateX(100%);
+    transition: all 1s ease-in;
+  }
+  .fade-exit-done{
+    transform: translateX(100%)
+  }
+  .manage{
+    margin-top: 0;
+  }
+  .anticon-arrow-left{
+    font-size: 20px;
+    line-height: 36px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
