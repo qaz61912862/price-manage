@@ -30,6 +30,23 @@ export const modifyOtherInfo = base + '/api/user/modifyOtherInfo'
 
 export const searchUser = base + '/api/user/searchUser'
 
+export const createArticle = base + '/api/article/createArticle'
+
+export const getArticleList = base + '/api/article/getArticleList'
+
+export const getMyArticleList = base + '/api/article/getMyArticleList'
+
+export const getReadyArticleList = base + '/api/article/getReadyArticleList'
+
+
+
+
+
+
+
+
+
+
 
 
 

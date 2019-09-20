@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { getUserList, delUser, searchUser } from '../../../../api/api'
 import './index.less'
 import Search from './component/Search'
-import { Row, Col, message, Pagination, Button } from 'antd'
+import { Row, Col, message, Pagination, Button, Spin } from 'antd'
 import axios from '../../../../utils/request'
 
 export default class User extends Component {
@@ -116,6 +116,7 @@ export default class User extends Component {
     render() {
         const { isAdmin, isFinish, userList, total, showPage } = this.state
         return (
+            <Spin tip="Loading..." spinning={!isFinish}>
             <div className="user">
                 {
                     isFinish && isAdmin === 1 && (
@@ -135,7 +136,7 @@ export default class User extends Component {
                                             (item.avatar === '' || item.avatar === null || item.avatar === 'null') ? (
                                                 <img src={require('../../../../images/default.png')}/>
                                             ) : (
-                                                <img src={item.avatar}/>
+                                                <img src={item.avatar} />
                                             )
                                         }
                                         
@@ -164,6 +165,7 @@ export default class User extends Component {
                     )
                 }
             </div>
+            </Spin>
         )
     }
 }

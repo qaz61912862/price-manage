@@ -85,14 +85,14 @@ export default class ChildMenu extends Component {
                 if (routeArray[i].children) {
                     for (let j = 0; j < routeArray[i].children.length; j++) {
                         if (routeArray[i].children[j].route === window.location.pathname) {
-                            console.log(i+1, routeArray[i].children[j].key)
+                            // console.log(i+1, routeArray[i].children[j].key)
                             this.setState(() => {
                                 return {
                                     currentIndex: `${i + 1}`,
                                     currentGroup: `${routeArray[i].children[j].key}`
                                 }
                             }, () => {
-                                console.log(this.state)
+                                // console.log(this.state)
                             })
                             
                             break;

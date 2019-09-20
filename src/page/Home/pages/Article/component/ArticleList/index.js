@@ -1,30 +1,18 @@
 import React, { Component, Fragment } from 'react'
 import './index.less'
-import { List, Avatar, Icon } from 'antd';
+import { List, Avatar, Icon, Spin } from 'antd';
+import { timestampToTime } from '../../../../../../utils/common'
 
 export default class ArticleList extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      articleList: [
-        {
-          id: 1,
-          authorId: 3,
-          author: 'Hanson',
-          title: '生产车载显示器玻璃 旭硝子在中国建厂',
-          content: 'xxx',
-          avatar: '',
-          article_img: '',
-          createTime: 1412412412
-        }
-
-      ]
-    }
+  toggleCheck = (index) => {
+    this.props.changeCheck(index)
+    // console.log(this.props.articleList[index])
+    // this.props.articleList[index].isCheck = !this.props.articleList[index].isCheck
   }
   render() {
-    const { articleList } = this.state
+    const { articleList, currentIndex, isFinsh } = this.props
     return (
-      <Fragment>
+      <Spin tip="Loading..." spinning={!isFinsh}>
       <List
         itemLayout="vertical"
         size="large"
@@ -32,35 +20,53 @@ export default class ArticleList extends Component {
           onChange: page => {
             console.log(page);
           },
-          pageSize: 3,
+          pageSize: 4,
         }}
         dataSource={articleList}
         footer={
           <div>
-            <b>ant design</b> footer part
+            <b>design by</b> Hanson
           </div>
         }
-        renderItem={item => (
+        renderItem={(item, index) => (
           <List.Item
             key={item.title}
             extra={
               <img
                 width={272}
                 alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                src={item.article_img}
               />
             }
           >
             <List.Item.Meta
               avatar={<Avatar src={item.avatar} />}
               title={<a href="#">{item.title}</a>}
-              description={item.createTime}
+              description={`${item.author} 发布于 ${timestampToTime(item.createTime)}`}
             />
-            {item.content}
+            {item.list_show_text}
+            {
+              currentIndex !== 0 && item.state == 0 && <div className="right-status check">审核中</div>
+            }
+            {
+              currentIndex !== 0 && item.state == 1 && <div className="right-status send">已发布</div>
+            }
+            {
+              currentIndex !== 0 && item.state == 2 && <div className="right-status fail">审核失败</div>
+            }
+            {
+              currentIndex == 2 && (
+                <div className="checkBox" onClick={(e) => {this.toggleCheck(index, e)}}>
+                  {
+                    item.isCheck && <Icon type="check" />
+                  }
+                </div>
+              )
+            }
           </List.Item>
         )}
       />
-      </Fragment>
+      </Spin>
     )
   }
 }

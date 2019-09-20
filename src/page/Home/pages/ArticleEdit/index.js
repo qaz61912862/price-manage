@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Input, Upload, Icon, message, Button  } from 'antd';
 import { getBase64, beforeUpload } from '../../../../utils/upload'
+import { createArticle } from '../../../../api/api'
 import './index.less'
 import E from 'wangeditor'
+import axios from '../../../../utils/request';
 const { TextArea } = Input;
 
 export default class ArticleEdit extends Component {
@@ -11,6 +13,10 @@ export default class ArticleEdit extends Component {
   }
   state = {
     loading: false,
+    title: '',
+    imageUrl: '',
+    intro: '',
+    content: ''
   };
   initEditor = () => {
     const elem = this.refs.editorElem
@@ -50,20 +56,20 @@ export default class ArticleEdit extends Component {
       'head', // 标题
       'bold', // 粗体
       'fontSize', // 字号
-      // 'fontName', // 字体
+      'fontName', // 字体
       'italic', // 斜体
       'underline', // 下划线
       'strikeThrough', // 删除线
       'foreColor', // 文字颜色
-      // 'backColor', // 背景颜色
+      'backColor', // 背景颜色
       'link', // 插入链接
       'list', // 列表
       'justify', // 对齐方式
       'quote', // 引用
-      // 'emoticon', // 表情
+      'emoticon', // 表情
       'image', // 插入图片
-      // 'table', // 表格
-      // 'video', // 插入视频
+      'table', // 表格
+      'video', // 插入视频
       // 'code', // 插入代码
       'undo', // 撤销
       'redo' // 重复
@@ -100,13 +106,48 @@ export default class ArticleEdit extends Component {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
+        this.setState(() => {
+          return {
+            imageUrl,
+            loading: false,
+          }
+        })
       );
     }
   };
+  changeTitle = ( {target: {value}} ) => {
+    this.setState(() => {
+      return {
+        title: value
+      }
+    })
+  }
+  changeTextArea = ( {target: {value}} ) => {
+    this.setState(() => {
+      return {
+        intro: value
+      }
+    })
+  }
+  createArticle = () => {
+    let { title, imageUrl, intro } = this.state
+    let info = {
+      title,
+      imageUrl,
+      intro,
+      content: this.editor.txt.html()
+    }
+    // console.log(info)
+    // console.log(this.editor.txt.html())
+    axios.post(createArticle, info).then((res) => {
+      if (res.data.errno == 0) {
+        message.success('发布成功...等待审核')
+        setTimeout(() => {
+          this.props.history.replace('/home/article')
+        }, 1500)
+      }
+    })
+  }
   render() {
     const uploadButton = (
       <div>
@@ -117,26 +158,29 @@ export default class ArticleEdit extends Component {
     const { imageUrl } = this.state;
     return (
       <div className="articleEdit">
-        <Input className="common-input" placeholder="输入文章标题" />
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          beforeUpload={beforeUpload}
-          onChange={this.handleChange}
-        >
-          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-        </Upload>
-        <TextArea
-          className="textarea-input"
-          autosize={false}
-          // onChange={this.onChange}
-          placeholder="输入列表页面显示文字简介"
-        />
+        <Input className="common-input" onChange={this.changeTitle} placeholder="输入文章标题" />
+        <div className="mid-wrapper">
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange}
+          >
+            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+          </Upload>
+          <TextArea
+            onChange={this.changeTextArea}
+            className="textarea-input"
+            autosize={false}
+            // onChange={this.onChange}
+            placeholder="输入列表页面显示文字简介"
+          />
+        </div>
         <div className="editor" ref='editorElem' style={{ textAlign: 'left' }} />
-        <Button type="primary" className="confirm-btn">发布</Button>
+        <Button type="primary" className="confirm-btn" onClick={this.createArticle}>发布</Button>
       </div>
     )
   }

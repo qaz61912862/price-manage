@@ -27,6 +27,7 @@ export default class ManageButton extends Component {
   }
   render() {
     let { showManageGroup } = this.state
+    let { currentIndex } = this.props
     return (
       <div>
         <Row>
