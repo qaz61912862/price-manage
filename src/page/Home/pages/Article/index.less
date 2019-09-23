@@ -15,10 +15,15 @@
       position: relative;
       .check-btn{
         position: absolute;
-        right: 0;
-        background: #F5222D;
+        right: 100px;
+        background: green;
         color: #fff;
-        border-color: #F5222D;
+        border-color: green;
+        &.fail-btn{
+          right: 0px;
+          background: #F5222D;
+          border-color: #F5222D;
+        }
       }
       .tab-item{
         width: 100px;
@@ -35,3 +40,21 @@
     }
   }
 }
+.ant-modal-content{
+  // background: red;
+  .ant-modal-body{
+    // background: red;
+    .ant-input{
+      border-color: #252525 !important;
+      // background: red;
+      box-shadow: #252525 !important;
+    }
+  }
+  .ant-modal-footer
+    .ant-btn-primary{
+      background: #252525;
+      border-color: #252525;
+    }
+    
+}
+  

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Upload, Row, Col, Avatar, Input, Button, message } from 'antd'
-import { getUserInfo, modifyUserInfo } from '../../api/api'
 import { getBase64, beforeUpload } from '../../utils/upload'
-import axios from '../../utils/request'
 import './index.less'
 
 export default class UserInfo extends Component {
@@ -55,7 +53,7 @@ export default class UserInfo extends Component {
                   onChange={this.handleChangeImg}
                   >
                       {
-                          (userInfo.avatar === '' || userInfo.avatar == null || userInfo.avatar == 'null') ? (
+                          (userInfo.avatar === '' || userInfo.avatar === null || userInfo.avatar === 'null') ? (
                               <Avatar size={64} icon="user" />
                           ) : (
                               <img src={userInfo.avatar}/>

@@ -1,8 +1,12 @@
 .ant-list{
   width: 100%;
+  .ant-list-pagination{
+    text-align: center;
+  }
   .ant-list-item{
     padding-bottom: 60px;
     position: relative;
+    
     .checkBox{
       width: 22px;
       height: 22px;
@@ -26,6 +30,12 @@
     .ant-list-item-meta-description{
       color: rgb(24,144,255);
     }
+    .reason{
+      color: red;
+      position: absolute;
+      left: 0;
+      bottom: 10px;
+    }
     .right-status{
       width: 80px;
       height: 30px;
@@ -36,6 +46,12 @@
       border-radius: 4px;
       text-align: center;
       background: #fff;
+      &.edit-btn{
+        right: 100px;
+        cursor: pointer;
+        background: #252525;
+        color: #fff;
+      }
       &.check{
         color: rgb(251,206,127);
         border: 1px solid rgb(251,206,127);

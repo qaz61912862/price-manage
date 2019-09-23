@@ -35,7 +35,7 @@ export const logout = () => {
             type: LOG_OUT
         }
         axios.get(logoutApi).then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.data.errno === 0) {
                 message.success('退出成功')
                 dispatch(action)

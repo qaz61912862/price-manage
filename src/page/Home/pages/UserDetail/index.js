@@ -30,7 +30,7 @@ export default class UserDetail extends Component {
         realname
       }
       axios.post(modifyOtherInfo, info).then((res) => {
-        if (res.data.errno == 0) {
+        if (res.data.errno === 0) {
           message.success('修改成功')
         } else {
           message.error(res.data.msg)
@@ -44,7 +44,7 @@ export default class UserDetail extends Component {
     }
     axios.post(getUserInfo, info).then((res) => {
       // console.log(res.data)
-      if (res.data.errno == 0) {
+      if (res.data.errno === 0) {
         this.setState(() => {
           return {
             userInfo: res.data.data

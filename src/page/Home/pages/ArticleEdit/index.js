@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Input, Upload, Icon, message, Button  } from 'antd';
 import { getBase64, beforeUpload } from '../../../../utils/upload'
-import { createArticle } from '../../../../api/api'
+import { createArticle, getArticleDetail, updateArticleDetail } from '../../../../api/api'
+import { getQueryString } from '../../../../utils/common'
 import './index.less'
 import E from 'wangeditor'
 import axios from '../../../../utils/request';
@@ -9,15 +10,40 @@ const { TextArea } = Input;
 
 export default class ArticleEdit extends Component {
   componentDidMount() {
+    // console.log(this.props.history.location.search)
+    if (getQueryString('id')) {
+      this.init()
+    }
     this.initEditor()
   }
   state = {
+    isFirst: true,
     loading: false,
     title: '',
     imageUrl: '',
     intro: '',
-    content: ''
+    content: '',
+    state: ''
   };
+  init = () => {
+    let info = {
+      id: getQueryString('id')
+    }
+    axios.post(getArticleDetail, info).then((res) => {
+      if (res.data.errno === 0) {
+        let detail = res.data.data
+        this.setState(() => {
+          return {
+            title: detail.title,
+            imageUrl: detail.article_img,
+            intro: detail.list_show_text,
+            content: detail.content,
+            state: detail.state
+          }
+        })
+      }
+    })
+  }
   initEditor = () => {
     const elem = this.refs.editorElem
     const editor = new E(elem)
@@ -98,6 +124,18 @@ export default class ArticleEdit extends Component {
     }
     editor.create()
   }
+  componentDidUpdate() {
+    if (this.state.isFirst && getQueryString('id')) {
+      this.setState(() => {
+        return {
+          isFirst: false
+        }
+      }, () => {
+        this.editor.txt.html(this.state.content)
+      })
+    }
+    // this.editor.txt.html(this.state.content)
+  }
   handleChange = info => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
@@ -130,7 +168,7 @@ export default class ArticleEdit extends Component {
     })
   }
   createArticle = () => {
-    let { title, imageUrl, intro } = this.state
+    let { title, imageUrl, intro, state } = this.state
     let info = {
       title,
       imageUrl,
@@ -139,14 +177,36 @@ export default class ArticleEdit extends Component {
     }
     // console.log(info)
     // console.log(this.editor.txt.html())
-    axios.post(createArticle, info).then((res) => {
-      if (res.data.errno == 0) {
-        message.success('发布成功...等待审核')
-        setTimeout(() => {
-          this.props.history.replace('/home/article')
-        }, 1500)
+    if (!getQueryString('id')) {
+      axios.post(createArticle, info).then((res) => {
+        if (res.data.errno === 0) {
+          message.success('发布成功...等待审核')
+          setTimeout(() => {
+            this.props.history.replace('/home/article')
+          }, 1500)
+        }
+      })
+    } else {
+      if (state === 2) {
+        let info = {
+          id: getQueryString('id'),
+          title,
+          imageUrl,
+          intro,
+          content: this.editor.txt.html()
+        }
+        axios.post(updateArticleDetail, info).then((res) => {
+          if (res.data.errno === 0) {
+            message.success('修改成功...等待审核')
+            setTimeout(() => {
+              this.props.history.replace('/home/article')
+            }, 1500)
+          }
+        })
+      } else {
+        message.error('不能修改该文章')
       }
-    })
+    }
   }
   render() {
     const uploadButton = (
@@ -155,10 +215,10 @@ export default class ArticleEdit extends Component {
         <div className="ant-upload-text">Upload(400 × 250)</div>
       </div>
     );
-    const { imageUrl } = this.state;
+    const { imageUrl, title, intro } = this.state;
     return (
       <div className="articleEdit">
-        <Input className="common-input" onChange={this.changeTitle} placeholder="输入文章标题" />
+        <Input className="common-input" value={title} onChange={this.changeTitle} placeholder="输入文章标题" />
         <div className="mid-wrapper">
           <Upload
             name="avatar"
@@ -175,8 +235,8 @@ export default class ArticleEdit extends Component {
             onChange={this.changeTextArea}
             className="textarea-input"
             autosize={false}
-            // onChange={this.onChange}
             placeholder="输入列表页面显示文字简介"
+            value={intro}
           />
         </div>
         <div className="editor" ref='editorElem' style={{ textAlign: 'left' }} />

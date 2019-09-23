@@ -48,7 +48,7 @@ export default class User extends Component {
             id
         }
         axios.post(delUser, info).then((res) => {
-            if (res.data.errno == 0) {
+            if (res.data.errno === 0) {
                 message.success('删除成功');
                 this.setState(() => {
                     return {
@@ -66,7 +66,7 @@ export default class User extends Component {
         let info = {
             key
         }
-        if (key == '') {
+        if (key === '') {
             this.setState({
                 showPage: true,
                 current: 1,
@@ -134,9 +134,9 @@ export default class User extends Component {
                                     <Col span={6}>
                                         {
                                             (item.avatar === '' || item.avatar === null || item.avatar === 'null') ? (
-                                                <img src={require('../../../../images/default.png')}/>
+                                                <img alt="" src={require('../../../../images/default.png')}/>
                                             ) : (
-                                                <img src={item.avatar} />
+                                                <img alt="" src={item.avatar} />
                                             )
                                         }
                                         

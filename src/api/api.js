@@ -38,6 +38,23 @@ export const getMyArticleList = base + '/api/article/getMyArticleList'
 
 export const getReadyArticleList = base + '/api/article/getReadyArticleList'
 
+export const successCheck = base + '/api/article/successCheck'
+
+export const failCheck = base + '/api/article/failCheck'
+
+export const getArticleDetail = base + '/api/article/getArticleDetail'
+
+export const updateArticleDetail = base + '/api/article/updateArticleDetail'
+
+
+
+
+
+
+
+
+
+
 
 
 

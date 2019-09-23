@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Button } from 'antd'
+import { Button, Avatar } from 'antd'
 import { connect } from 'react-redux'
 import { logout } from '../../../../page/Login/store/actionCreators'
 import { getMyInfo } from '../../../../api/api'
@@ -47,8 +47,8 @@ class ChildHeader extends Component {
                     <div className="user-info">
                         <div className="avatar">
                             {
-                                avatar === '' ? (
-                                    <Icon type="smile" theme="outlined" />
+                                avatar === '' || avatar === null || avatar === 'null' ? (
+                                    <Avatar size={24} icon="user" />
                                 ) : (
                                     <img className="avatar-img" src={avatar} alt=""/>
                                 )

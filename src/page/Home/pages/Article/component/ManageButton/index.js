@@ -16,6 +16,8 @@ export default class ManageButton extends Component {
       return {
         showManageGroup: true
       }
+    }, () => {
+      this.props.showBtns()
     })
   }
   goBack = () => {
@@ -27,12 +29,12 @@ export default class ManageButton extends Component {
   }
   render() {
     let { showManageGroup } = this.state
-    let { currentIndex } = this.props
+    let { isAdmin, currentIndex } = this.props
     return (
       <div>
         <Row>
             {
-              !showManageGroup && (
+              currentIndex === 0 && isAdmin === 1 && !showManageGroup && (
                 <CSSTransition
               in={!showManageGroup}
               timeout={2000}
@@ -53,8 +55,8 @@ export default class ManageButton extends Component {
             >
                 <div className="btn-group">
                 <Icon type="arrow-left" onClick={this.goBack}/>
-                <Button className="manage" type="primary">置顶</Button>
-                <Button className="manage delete" type="danger">删除</Button>
+                <Button className="manage" type="primary" onClick={this.props.pulltoTop}>置顶</Button>
+                <Button className="manage delete" type="danger" onClick={this.props.deleteArticle}>删除</Button>
 
                 </div>
                 </CSSTransition>
