@@ -32,6 +32,7 @@ export const searchUser = base + '/api/user/searchUser'
 
 export const createArticle = base + '/api/article/createArticle'
 
+//article列表 state: 0审核中，1已发布，2审核失败，3已删除
 export const getArticleList = base + '/api/article/getArticleList'
 
 export const getMyArticleList = base + '/api/article/getMyArticleList'
@@ -45,6 +46,19 @@ export const failCheck = base + '/api/article/failCheck'
 export const getArticleDetail = base + '/api/article/getArticleDetail'
 
 export const updateArticleDetail = base + '/api/article/updateArticleDetail'
+
+export const deleteArticle = base + '/api/article/deleteArticle'
+
+export const toTopArticle = base + '/api/article/toTopArticle'
+
+export const getAllBrand = base + '/api/picture/getAllBrand'
+
+export const addBrand = base + '/api/picture/addBrand'
+
+
+
+
+
 
 
 

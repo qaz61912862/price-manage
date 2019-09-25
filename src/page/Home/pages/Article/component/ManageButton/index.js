@@ -25,6 +25,8 @@ export default class ManageButton extends Component {
       return {
         showManageGroup: false
       }
+    }, () => {
+      this.props.hideBtns()
     })
   }
   render() {

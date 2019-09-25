@@ -5,14 +5,27 @@ import { List, Avatar, Icon, Spin } from 'antd';
 import { timestampToTime } from '../../../../../../utils/common'
 
 export default class ArticleList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      current: 1
+    }
+}
   toggleCheck = (index, currentIndex) => {
     this.props.changeCheck(index, currentIndex)
     // console.log(this.props.articleList[index])
     // this.props.articleList[index].isCheck = !this.props.articleList[index].isCheck
   }
+  resetPage = () => {
+    this.setState(() => {
+      return {
+        current: 1
+      }
+    })
+  }
   render() {
-    const { articleList, currentIndex, isFinsh, isAdmin, showChoose, current } = this.props
-    console.log(current)
+    const { articleList, currentIndex, isFinsh, isAdmin, showChoose } = this.props
+    const { current } = this.state
     return (
       <Spin tip="Loading..." spinning={!isFinsh}>
       <List
@@ -21,9 +34,14 @@ export default class ArticleList extends Component {
         pagination={{
           onChange: page => {
             this.props.changeAllPage(page)
+            this.setState(() => {
+              return {
+                current: page
+              }
+            })
           },
           pageSize: 3,
-          // current: current
+          current: current
         }}
         dataSource={articleList}
         footer={
@@ -32,19 +50,21 @@ export default class ArticleList extends Component {
           </div>
         }
         renderItem={(item, index) => (
-          <List.Item
+            <List.Item
             key={item.title}
             extra={
               item.article_img && <img
-               width={272}
-               alt="logo"
-               src={item.article_img}
-             />
+              width={272}
+              alt="logo"
+              src={item.article_img}
+            />
             }
           >
             <List.Item.Meta
               avatar={(item.avatar === '' || item.avatar === 'null' || item.avatar === null) ? (<Avatar size={32} icon="user" />) : (<Avatar src={item.avatar} />)}
-              title={<a href="#">{item.title}</a>}
+              title={<Link to={{
+                pathname: `/home/articleDetail/${item.id}`
+              }}>{item.title}</Link>}
               description={`${item.author} 发布于 ${timestampToTime(item.createTime)}`}
             />
             {item.list_show_text}

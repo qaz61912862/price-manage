@@ -5,7 +5,7 @@ import axios from '../../../../utils/request'
 import { Button, message, Modal, Input } from 'antd'
 import { connect } from 'react-redux'
 import { pushChoose, cancelChoose } from './store/actionCreators'
-import { getArticleList, getMyArticleList, getReadyArticleList, successCheck, failCheck } from '../../../../api/api'
+import { toTopArticle, getArticleList, getMyArticleList, getReadyArticleList, successCheck, failCheck, deleteArticle } from '../../../../api/api'
 import './index.less'
 const { TextArea } = Input;
 
@@ -89,7 +89,7 @@ class Article extends Component {
         
     }
     changeTab = (index) => {
-        // console.log(this.props.checkArray)
+        this.refs.articleList.resetPage()
         if (this.state.currentIndex !== index && this.state.isFinsh)
         this.setState(() => {
             return {
@@ -170,14 +170,17 @@ class Article extends Component {
         }
     }
     checkArticle = () => {
-        if (this.props.checkArray.length === 0) {
+        this.handleTemplate(this.props.checkArray, successCheck)
+    }
+    handleTemplate = (array, url) => {
+        if (array.length === 0) {
             message.warning('请先选择文章')
             return
         }
         let info = {
-            idArray: this.props.checkArray
+            idArray: array
         }
-        axios.post(successCheck, info).then((res) => {
+        axios.post(url, info).then((res) => {
             if (res.data.errno === 0) {
                 message.success('操作成功')
                 setTimeout(() => {
@@ -192,6 +195,13 @@ class Article extends Component {
         this.setState(() => {
             return {
                 showChoose: true
+            }
+        })
+    }
+    hideBtns = () => {
+        this.setState(() => {
+            return {
+                showChoose: false
             }
         })
     }
@@ -232,10 +242,10 @@ class Article extends Component {
         });
     };
     pulltoTop = () => {
-        console.log(this.props.allChooseArray)
+        this.handleTemplate(this.props.allChooseArray, toTopArticle)
     }
     deleteArticle = () => {
-        console.log(this.props.allChooseArray)
+        this.handleTemplate(this.props.allChooseArray, deleteArticle)
     }
     render() {
         let { tabList, currentIndex, articleList, isFinsh, reason, isAdmin, showChoose, current } = this.state
@@ -255,7 +265,7 @@ class Article extends Component {
                     onChange={this.onChangeTextArea}
                     ></TextArea>
                 </Modal>
-                <ManageButton pulltoTop={this.pulltoTop} deleteArticle={this.deleteArticle} showBtns={this.showBtns} currentIndex={currentIndex} isAdmin={isAdmin}/>
+                <ManageButton pulltoTop={this.pulltoTop} deleteArticle={this.deleteArticle} showBtns={this.showBtns} currentIndex={currentIndex} isAdmin={isAdmin} hideBtns={this.hideBtns}/>
                 <div className="main-box">
                     <div className="tab-box">
                         {
@@ -272,7 +282,7 @@ class Article extends Component {
                             ))
                         }
                     </div>
-                    <ArticleList current={current} changeAllPage={this.changeAllPage} showChoose={showChoose} isAdmin={isAdmin} changeCheck={this.changeCheck} isFinsh={isFinsh} articleList={articleList} currentIndex={currentIndex}/>
+                    <ArticleList ref="articleList" changeAllPage={this.changeAllPage} showChoose={showChoose} isAdmin={isAdmin} changeCheck={this.changeCheck} isFinsh={isFinsh} articleList={articleList} currentIndex={currentIndex}/>
                 </div>
 
             </div>
