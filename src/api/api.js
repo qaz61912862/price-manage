@@ -1,5 +1,7 @@
 const base = 'http://localhost:4000'
 
+// const base = 'http://106.54.204.54:4000'
+
 export const register = base + '/api/user/addUser'
 
 export const checkUser = base + '/api/user/checkUser'
@@ -54,6 +56,10 @@ export const toTopArticle = base + '/api/article/toTopArticle'
 export const getAllBrand = base + '/api/picture/getAllBrand'
 
 export const addBrand = base + '/api/picture/addBrand'
+
+export const getCorrespondingBrand = base + '/api/picture/getCorrespondingBrand'
+
+
 
 
 

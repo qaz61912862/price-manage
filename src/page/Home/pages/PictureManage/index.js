@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Row, Col, Select, Input, Button, Message } from 'antd'
+import { Row, Col, Select, Input, Button, Message, Upload, Icon, Modal } from 'antd'
 import axios from '../../../../utils/request'
-import { getAllBrand, addBrand } from '../../../../api/api'
+import { getAllBrand, addBrand, getCorrespondingBrand } from '../../../../api/api'
 const { Option } = Select
 
 
@@ -10,36 +10,24 @@ export default class PictureManage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: [
-        {
-          name: 'A',
-          id: 1,
-          parent_id: 0,
-          children: [
-            {
-              id: 2,
-              parent_id: 1,
-              name: '阿尔法',
-              children: [
-                {
-                  id: 4,
-                  parent_id: 2,
-                  name: '阿尔法的儿子'
-                }
-              ]
-            },
-            {
-              id: 3,
-              parent_id: 1,
-              name: '阿玛尼'
-            }
-          ]
-        }
-      ],
       letterArray: [],
       letter: '',
-      letterInput: ''
+      letterInput: '',
+      correspondingArray: [],
+      corresponding: '',
+      carArray: [],
+      carInput: '',
+      previewVisible: false,
+      previewImage: '',
+      fileList: []
     }
+  }
+  handleCancel = () => this.setState({ previewVisible: false })
+
+
+  handleChange = ({ fileList }) => {
+    this.setState({ fileList })
+    console.log(fileList)
   }
   componentDidMount() {
     this.init()
@@ -57,9 +45,29 @@ export default class PictureManage extends Component {
   }
   addBrand = () => {
     let { letter, letterInput } = this.state
+    if (letter == '' || letterInput == '') {
+      Message.warning('请输入完整信息')
+      return;
+    }
     let info = {
       parent_id: letter,
       name: letterInput
+    }
+    axios.post(addBrand, info).then((res) => {
+      if (res.data.errno == 0) {
+        Message.success(res.data.data.msg)
+      }
+    })
+  }
+  addCar = () => {
+    let { corresponding, carInput } = this.state
+    if (corresponding == '' || carInput == '') {
+      Message.warning('请输入完整信息')
+      return;
+    }
+    let info = {
+      parent_id: corresponding,
+      name: carInput
     }
     axios.post(addBrand, info).then((res) => {
       if (res.data.errno == 0) {
@@ -73,6 +81,37 @@ export default class PictureManage extends Component {
       return {
         letter: e.key
       }
+    }, () => {
+      let info = {
+        parent_id: this.state.letter
+      }
+      axios.post(getCorrespondingBrand, info).then((res) => {
+        this.setState(() => {
+          return {
+            correspondingArray: res.data.data
+          }
+        })
+      })
+    })
+    
+  }
+  onChangeCorresponding = (value, e) => {
+    console.log(value, e)
+    this.setState(() => {
+      return {
+        corresponding: e.key
+      }
+    }, () => {
+      let info = {
+        parent_id: this.state.corresponding
+      }
+      axios.post(getCorrespondingBrand, info).then((res) => {
+        this.setState(() => {
+          return {
+            carArray: res.data.data
+          }
+        })
+      })
     })
   }
   onChangeLetterInput = ({target: {value}}) => {
@@ -82,8 +121,22 @@ export default class PictureManage extends Component {
       }
     })
   }
+  onChangeCarInput = ({target: {value}}) => {
+    this.setState(() => {
+      return {
+        carInput: value
+      }
+    })
+  }
   render() {
-    const { letterArray, letter, letterInput } = this.state
+    const { previewVisible, previewImage, fileList } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { letterArray, letter, letterInput, correspondingArray, corresponding, carInput, carArray } = this.state
     return (
       <div className="PictureManage">
         <Row className="row-item">
@@ -115,32 +168,34 @@ export default class PictureManage extends Component {
         <Row className="row-item">
           <Col span={8}>
             <Select
+              disabled={letter == ''}
               showSearch
               style={{ width: 200 }}
               placeholder="选择品牌"
               optionFilterProp="children"
-              onChange={this.onChangeLetter}
+              onChange={this.onChangeCorresponding}
               filterOption={(input, option) =>
                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {
-                letterArray.map((item) => (
+                correspondingArray.map((item) => (
                   <Option value={item.id} key={item.id}>{item.name}</Option>
                 ))
               }
             </Select>
           </Col>
           <Col span={8}>
-            <Input placeholder="添加车型名称" onChange={this.onChangeLetterInput}/>
+            <Input value={carInput} placeholder="添加车型名称" onChange={this.onChangeCarInput}/>
           </Col>
           <Col span={8}>
-            <Button type="primary">添加车型</Button>
+            <Button type="primary" onClick={this.addCar}>添加车型</Button>
           </Col>
         </Row>
         <Row className="row-item">
           <Col span={8}>
             <Select
+              disabled={corresponding == ''}
               showSearch
               style={{ width: 200 }}
               placeholder="选择车型"
@@ -151,13 +206,29 @@ export default class PictureManage extends Component {
               }
             >
               {
-                letterArray.map((item) => (
+                carArray.map((item) => (
                   <Option value={item.name} key={item.id}>{item.name}</Option>
                 ))
               }
             </Select>
           </Col>
         </Row>
+        <Row className="row-item">
+          <div className="clearfix">
+            <Upload
+              disabled={fileList.length == 4}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onChange={this.handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            </Modal>
+          </div>
+        </Row>
+        <Button type="primary" className="save-btn">保存</Button>
 
       </div>
     )

@@ -97,42 +97,40 @@ class Article extends Component {
                 isFinsh: false
             }
         })
-        setTimeout(() => {
+        this.setState(() => {
+            return {
+                isFinsh: true
+            }
+        }, () => {
             this.setState(() => {
                 return {
-                    isFinsh: true
+                    currentIndex: index
                 }
             }, () => {
-                this.setState(() => {
-                    return {
-                        currentIndex: index
-                    }
-                }, () => {
-                    if (this.state.currentIndex === 0) {
-                        this.setState(() => {
-                            return {
-                                articleList: this.state.allArticleList,
-                                total: this.state.allTotal
-                            }
-                        })
-                    } else if (this.state.currentIndex === 1) {
-                        this.setState(() => {
-                            return {
-                                articleList: this.state.myArticleList,
-                                total: this.state.myTotal
-                            }
-                        })
-                    } else if (this.state.currentIndex === 2) {
-                        this.setState(() => {
-                            return {
-                                articleList: this.state.readyArticleList,
-                                total: this.state.readyTotal
-                            }
-                        })
-                    }
-                })
+                if (this.state.currentIndex === 0) {
+                    this.setState(() => {
+                        return {
+                            articleList: this.state.allArticleList,
+                            total: this.state.allTotal
+                        }
+                    })
+                } else if (this.state.currentIndex === 1) {
+                    this.setState(() => {
+                        return {
+                            articleList: this.state.myArticleList,
+                            total: this.state.myTotal
+                        }
+                    })
+                } else if (this.state.currentIndex === 2) {
+                    this.setState(() => {
+                        return {
+                            articleList: this.state.readyArticleList,
+                            total: this.state.readyTotal
+                        }
+                    })
+                }
             })
-        }, 1000)
+        })
     }
     changeAllPage = (page) => {
         this.setState(() => {
