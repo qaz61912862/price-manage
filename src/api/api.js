@@ -59,6 +59,12 @@ export const addBrand = base + '/api/picture/addBrand'
 
 export const getCorrespondingBrand = base + '/api/picture/getCorrespondingBrand'
 
+export const saveImageForCar = base + '/api/picture/saveImageForCar'
+
+export const getImageList = base + '/api/picture/getImageList'
+
+
+
 
 
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.less'
 import { Row, Col, Select, Input, Button, Message, Upload, Icon, Modal } from 'antd'
 import axios from '../../../../utils/request'
-import { getAllBrand, addBrand, getCorrespondingBrand } from '../../../../api/api'
+import { getAllBrand, addBrand, getCorrespondingBrand, saveImageForCar, getImageList } from '../../../../api/api'
 const { Option } = Select
 
 
@@ -10,6 +10,7 @@ export default class PictureManage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      uploadType: '',
       letterArray: [],
       letter: '',
       letterInput: '',
@@ -17,9 +18,12 @@ export default class PictureManage extends Component {
       corresponding: '',
       carArray: [],
       carInput: '',
+      carId: '',
       previewVisible: false,
       previewImage: '',
-      fileList: []
+      fileList: [
+        
+      ]
     }
   }
   handleCancel = () => this.setState({ previewVisible: false })
@@ -27,7 +31,6 @@ export default class PictureManage extends Component {
 
   handleChange = ({ fileList }) => {
     this.setState({ fileList })
-    console.log(fileList)
   }
   componentDidMount() {
     this.init()
@@ -51,7 +54,8 @@ export default class PictureManage extends Component {
     }
     let info = {
       parent_id: letter,
-      name: letterInput
+      name: letterInput,
+      type: 2
     }
     axios.post(addBrand, info).then((res) => {
       if (res.data.errno == 0) {
@@ -67,7 +71,8 @@ export default class PictureManage extends Component {
     }
     let info = {
       parent_id: corresponding,
-      name: carInput
+      name: carInput,
+      type: 3
     }
     axios.post(addBrand, info).then((res) => {
       if (res.data.errno == 0) {
@@ -77,39 +82,94 @@ export default class PictureManage extends Component {
   }
   onChangeLetter = (value, e) => {
     // console.log(value)
-    this.setState(() => {
-      return {
-        letter: e.key
-      }
-    }, () => {
-      let info = {
-        parent_id: this.state.letter
-      }
-      axios.post(getCorrespondingBrand, info).then((res) => {
-        this.setState(() => {
-          return {
-            correspondingArray: res.data.data
-          }
+    if (value !== undefined) {
+      this.setState(() => {
+        return {
+          letter: e.key
+        }
+      }, () => {
+        let info = {
+          parent_id: this.state.letter,
+          type: 2
+        }
+        axios.post(getCorrespondingBrand, info).then((res) => {
+          this.setState(() => {
+            return {
+              correspondingArray: res.data.data
+            }
+          })
         })
       })
-    })
+    }
     
   }
   onChangeCorresponding = (value, e) => {
-    console.log(value, e)
+    if (value !== undefined) {
+      this.setState(() => {
+        return {
+          carArray: [],
+
+          corresponding: e.key
+        }
+      }, () => {
+        let info = {
+          parent_id: this.state.corresponding,
+          type: 3
+        }
+        axios.post(getCorrespondingBrand, info).then((res) => {
+          this.setState(() => {
+            return {
+              carArray: res.data.data
+            }
+          })
+        })
+      })
+    }
+  }
+  onChangeCar = (value, e) => {
+    // console.log(value,e.key)
     this.setState(() => {
       return {
-        corresponding: e.key
+        carId: e.key
       }
     }, () => {
       let info = {
-        parent_id: this.state.corresponding
+        parent_id: this.state.carId
       }
-      axios.post(getCorrespondingBrand, info).then((res) => {
+      // console.log(info)
+      axios.post(getImageList, info).then((res) => {
         this.setState(() => {
           return {
-            carArray: res.data.data
+            picList: res.data.data,
+            fileList: []
           }
+        }, () => {
+          this.state.picList.forEach((item, index) => {
+            let info = {
+              uid: index,
+              url: item
+            }
+            this.state.fileList.push(info)
+          })
+          this.setState(() => {
+            return {
+              fileList: this.state.fileList
+            }
+          }, () => {
+            if (this.state.fileList.length > 0) {
+              this.setState(() => {
+                return {
+                  uploadType: 'update'
+                }
+              })
+            } else {
+              this.setState(() => {
+                return {
+                  uploadType: 'create'
+                }
+              })
+            }
+          })
         })
       })
     })
@@ -128,8 +188,41 @@ export default class PictureManage extends Component {
       }
     })
   }
+  savePhoto = () => {
+    if (this.state.fileList.length == 0 || this.state.corresponding == '') {
+      Message.warning('请填写完整信息')
+      return;
+    }
+    // console.log(this.state.fileList)
+    let array = []
+    this.state.fileList.forEach((each) => {
+      if(each.thumbUrl) {
+        array.push(each.thumbUrl)
+      } else if (each.url) {
+        array.push(each.url)
+      }
+    })
+    console.log(array)
+    let info = {
+      parent_id: this.state.carId,
+      picture: JSON.stringify(array)
+    }
+    console.log(info)
+    if (this.state.uploadType == 'update') {
+      
+    } else {
+      axios.post(saveImageForCar, info).then((res) => {
+        if (res.data.errno == 0) {
+          Message.success('添加成功')
+          setTimeout(() => {
+            this.props.history.go(0)
+          }, 1500)
+        }
+      })
+    }
+  }
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -168,6 +261,7 @@ export default class PictureManage extends Component {
         <Row className="row-item">
           <Col span={8}>
             <Select
+              allowClear={true}
               disabled={letter == ''}
               showSearch
               style={{ width: 200 }}
@@ -195,12 +289,13 @@ export default class PictureManage extends Component {
         <Row className="row-item">
           <Col span={8}>
             <Select
+              allowClear={true}
               disabled={corresponding == ''}
               showSearch
               style={{ width: 200 }}
               placeholder="选择车型"
               optionFilterProp="children"
-              onChange={this.onChangeLetter}
+              onChange={this.onChangeCar}
               filterOption={(input, option) =>
                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
@@ -228,7 +323,7 @@ export default class PictureManage extends Component {
             </Modal>
           </div>
         </Row>
-        <Button type="primary" className="save-btn">保存</Button>
+        <Button type="primary" className="save-btn" onClick={this.savePhoto}>保存</Button>
 
       </div>
     )
