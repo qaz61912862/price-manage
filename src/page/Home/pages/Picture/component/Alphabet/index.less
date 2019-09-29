@@ -1,0 +1,38 @@
+.Alphabet{
+  background: #fff;
+  .alpha-ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .alpha-item{
+      width: 24px;
+      height: 24px;
+      border: 1px solid #252525;
+      box-sizing: border-box;
+      margin: 0 5px 5px 0;
+      float: left;
+      text-align: center;
+      line-height: 22px;
+      color: #252525;
+      font-weight: bold;
+      cursor: pointer;
+      &:hover{
+        background: #ddd;
+      }
+      &.active{
+        background: #252525;
+        color: #fff;
+      }
+      &.disabled{
+        color: #ccc;
+        cursor: not-allowed;
+        &:hover{
+          background: #fff;
+        }
+      }
+    }
+    .clear{
+      clear: both;
+    }
+  }
+}

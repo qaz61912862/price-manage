@@ -63,6 +63,10 @@ export const saveImageForCar = base + '/api/picture/saveImageForCar'
 
 export const getImageList = base + '/api/picture/getImageList'
 
+export const updateImageForCar = base + '/api/picture/updateImageForCar'
+
+
+
 
 
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.less'
 import { Row, Col, Select, Input, Button, Message, Upload, Icon, Modal } from 'antd'
 import axios from '../../../../utils/request'
-import { getAllBrand, addBrand, getCorrespondingBrand, saveImageForCar, getImageList } from '../../../../api/api'
+import { getAllBrand, addBrand, getCorrespondingBrand, saveImageForCar, getImageList, updateImageForCar } from '../../../../api/api'
 const { Option } = Select
 
 
@@ -209,7 +209,14 @@ export default class PictureManage extends Component {
     }
     console.log(info)
     if (this.state.uploadType == 'update') {
-      
+      axios.post(updateImageForCar, info).then((res) => {
+        if (res.data.errno == 0) {
+          Message.success('修改成功')
+          setTimeout(() => {
+            this.props.history.go(0)
+          }, 1500)
+        }
+      })
     } else {
       axios.post(saveImageForCar, info).then((res) => {
         if (res.data.errno == 0) {
