@@ -26,11 +26,18 @@
       max-height: 10000px;
       margin-top: 10px;
     }
-    li{
+    .brand-li{
       display: flex;
-      height: 26px;
+      // height: 26px;
+      flex-direction: column;
       cursor: pointer;
       .anticon-caret-right{
+        font-size: 10px;
+        line-height: 26px;
+      }
+      .anticon-caret-down{
+        position: relative;
+        top: 1.5px;
         font-size: 10px;
         line-height: 26px;
       }
@@ -39,8 +46,18 @@
         color: #333;
         line-height: 26px;
         margin-left: 2px;
-        &:hover{
-          color: #d60000;
+        &:hover, &.active{
+          color: #f60;
+        }
+      }
+      .brand-detail{
+        padding: 0 14px;
+        margin: 1px 0;
+        .brand-item{
+          margin: 5px 0;
+          &.active{
+            color: #d60000;
+          }
         }
       }
     }
