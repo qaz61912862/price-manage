@@ -15,6 +15,7 @@ import Login from '../page/Login'
 import Register from '../page/Register'
 import PictureManage from '../page/Home/pages/PictureManage'
 import Dev from '../page/Dev'
+import AllView from '../page/AllView'
 import NotFound from '../components/NotFound'
 import {connect} from 'react-redux'
 
@@ -61,7 +62,8 @@ class RouterPage extends Component {
                             }
                             
                         }></Route>
-                        <Route path="/dev" component={Dev}></Route>  
+                        <Route path="/dev" component={Dev}></Route>
+                        <Route path="/allView" component={AllView}></Route> 
                         <Route component={NotFound}/>
                     </Switch>
                 </BrowserRouter>
