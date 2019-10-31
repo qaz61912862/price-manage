@@ -2,6 +2,9 @@ const base = 'http://localhost:4000'
 
 // const base = 'http://106.54.204.54:4000'
 
+// const base = 'http://49.235.95.226:4000'
+
+
 export const register = base + '/api/user/addUser'
 
 export const checkUser = base + '/api/user/checkUser'

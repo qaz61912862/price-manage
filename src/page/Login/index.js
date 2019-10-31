@@ -99,3 +99,13 @@ const mapDispatch = (dispatch) => {
     }
 }
 export default connect(mapState, mapDispatch)(Register)
+componentWillMount
+render
+componentDidMount
+shouldComponentUpdate(nextProps, nextState) {
+    
+}
+componentWillUpdate
+componentDidUpdate
+componentWillUnMount
+
